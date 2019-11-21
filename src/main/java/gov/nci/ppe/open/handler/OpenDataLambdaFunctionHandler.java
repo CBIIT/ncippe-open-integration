@@ -37,8 +37,8 @@ public class OpenDataLambdaFunctionHandler implements RequestHandler<Object, Str
 		OpenRequestDTO openRequestObj = new OpenRequestDTO();
 		openRequestObj.setPatientId("");
 		openRequestObj.setProtocolNumber("");
-		openRequestObj.setToDate("2019-11-15T13:32:60");
-		openRequestObj.setFromDate("2017-11-28T13:37:00");
+		openRequestObj.setToDate(toTime.toString().substring(0, 19));
+		openRequestObj.setFromDate(fromTime.toString().substring(0, 19));
 		HttpEntity<String> request = new HttpEntity<String>(openRequestObj.toString(), httpHeaders);
 		return restTemplate.postForObject(
 				"https://test-cews.ctsu.org/cews/api/open/v1/moonshot/ppe", request, String.class);
