@@ -30,10 +30,9 @@ public class OpenDataLambdaFunctionHandler implements RequestHandler<Object, Str
     	RestTemplate restTemplate = new RestTemplateBuilder().build();
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.set("Content-Type", "application/json");
-		httpHeaders.set("Authorization", "Basic cHBlOnBwZTEj");
-		// TODO the time below needs to be corrected.
+		httpHeaders.set("Authorization", System.getenv("OPEN_AUTHORIZATION"));
 		LocalDateTime toTime = LocalDateTime.now();
-		LocalDateTime fromTime = toTime.minusMinutes(3);
+		LocalDateTime fromTime = toTime.minusMinutes(Integer.parseInt(System.getenv("OPEN_POLLING_FREQUENCY")));
 		OpenRequestDTO openRequestObj = new OpenRequestDTO();
 		openRequestObj.setPatientId("");
 		openRequestObj.setProtocolNumber("");
@@ -41,7 +40,7 @@ public class OpenDataLambdaFunctionHandler implements RequestHandler<Object, Str
 		openRequestObj.setFromDate(fromTime.toString().substring(0, 19));
 		HttpEntity<String> request = new HttpEntity<String>(openRequestObj.toString(), httpHeaders);
 		return restTemplate.postForObject(
-				"https://test-cews.ctsu.org/cews/api/open/v1/moonshot/ppe", request, String.class);
+				System.getenv("OPEN_ENDPOINT"), request, String.class);
     }
     
     /**
@@ -53,8 +52,8 @@ public class OpenDataLambdaFunctionHandler implements RequestHandler<Object, Str
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.set("Content-Type", "application/json");
 		HttpEntity<String> request = new HttpEntity<String>(jsonData, httpHeaders);
-		System.out.println("http://devintg.ncippe.publicissapient.tech/api/v1/user/insert-open-data");
-		return restTemplate.postForObject("http://devintg.ncippe.publicissapient.tech/api/v1/user/insert-open-data", request, String.class);
+
+		return restTemplate.postForObject(System.getenv("NCIPPE_API_ENDPOINT"), request, String.class);
     }
 
 }
