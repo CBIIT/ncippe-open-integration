@@ -1,6 +1,5 @@
 package gov.nci.ppe.open.data.entity.dto;
 
-import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.StringJoiner;
 
