@@ -1,6 +1,7 @@
 package gov.nci.ppe.open.handler;
 
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
@@ -37,8 +38,8 @@ public class OpenDataLambdaFunctionHandler implements RequestHandler<Object, Str
 		OpenRequestDTO openRequestObj = new OpenRequestDTO();
 		openRequestObj.setPatientId("");
 		openRequestObj.setProtocolNumber(getEnvironmentValue("OPEN_PROTOCOL"));
-		openRequestObj.setToDate(toTime.toString());
-		openRequestObj.setFromDate(fromTime.toString());
+		openRequestObj.setToDate(toTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+		openRequestObj.setFromDate(fromTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
 		context.getLogger().log("Request Param: " + openRequestObj.toString());
 		HttpEntity<String> request = new HttpEntity<String>(openRequestObj.toString(), httpHeaders);
