@@ -1,6 +1,7 @@
 package gov.nci.ppe.open.handler;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
@@ -13,6 +14,8 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import gov.nci.ppe.open.data.entity.dto.OpenRequestDTO;
 
 public class OpenDataLambdaFunctionHandler implements RequestHandler<Object, String> {
+
+	private static final ZoneId ZONE_ID_ET = ZoneId.of("America/New_York");
 
 	@Override
 	public String handleRequest(Object input, Context context) {
@@ -69,7 +72,7 @@ public class OpenDataLambdaFunctionHandler implements RequestHandler<Object, Str
 			endDate = OffsetDateTime.parse(endTimeString);
 		} catch (Exception ex) {
 			context.getLogger().log(ex.getMessage());
-			endDate = OffsetDateTime.now();
+			endDate = OffsetDateTime.now(ZONE_ID_ET);
 		}
 
 		return endDate;
